@@ -10,6 +10,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using EmployeeDetails_Demo.App_Code;
+using System.Configuration;
 #endregion
 
 namespace EmployeeDetails_Demo
@@ -21,6 +22,7 @@ namespace EmployeeDetails_Demo
     {
         #region Properties
         IEmployeeBL employeeBL;
+        public string webServiceURL { get; set; }
         #endregion
 
         #region Events
@@ -32,7 +34,7 @@ namespace EmployeeDetails_Demo
         /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            webServiceURL = ConfigurationManager.AppSettings["WebServiceURL"];
         }
 
         /// <summary>
@@ -141,7 +143,7 @@ namespace EmployeeDetails_Demo
             try
             {
                 StringBuilder sb = new StringBuilder();
-                HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"http://localhost:49596/EmployeeWebService.asmx");
+                HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"" + webServiceURL);
                 Req.Headers.Add(@"SOAPAction:http://tempuri.org/GettingEmpDetailsByID");
                 Req.ContentType = "text/xml;charset=\"utf-8\"";
                 Req.Accept = "text/xml";
@@ -180,7 +182,7 @@ namespace EmployeeDetails_Demo
             try
             {
                 StringBuilder sb = new StringBuilder();
-                HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"http://localhost:49596/EmployeeWebService.asmx");
+                HttpWebRequest Req = (HttpWebRequest)WebRequest.Create(@"" + webServiceURL);
                 Req.Headers.Add(@"SOAPAction:http://tempuri.org/UpdateEmpDetails");
                 Req.ContentType = "text/xml;charset=\"utf-8\"";
                 Req.Accept = "text/xml";
